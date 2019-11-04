@@ -24,17 +24,20 @@ const IconContainer = styled.div`
   align-items:center;
   justify-content:center;
 `;
-const CrossImg = styled.img`
-  content:url(${Cross});
+const Icon = styled.img`
   max-height: 1.6rem;
   transition:filter 0.5s;
   filter:invert(0.4);
   cursor: pointer; 
 `;
-const SearchImg = styled(CrossImg)`
+const CrossImg = styled(Icon)`
+  content:url(${Cross});
+  filter:invert(0.7);
+`;
+const SearchImg = styled(Icon)`
   content:url(${Search});
 `;
-const MenuImg = styled(CrossImg)`
+const MenuImg = styled(Icon)`
   content:url(${Menu});
 `;
 
@@ -57,7 +60,7 @@ const Input = styled.input`
     outline: none;
     /* 選擇輸入框的 ICON */
     & ~ div > img{
-      filter:invert(0.6);
+      filter:invert(0.7);
     }
   }
   &::placeholder { 
@@ -109,9 +112,9 @@ class SearchInput extends Component {
         <IconContainer dir='right'>
           <CrossImg
             onClick={() => this.props.clearInputText()}
-            className={`${this.props.inputText === '' && 'hide'}`} />
+            className={`${this.props.isCleaned && 'hide'}`} />
           <SearchImg
-            className={`${this.props.inputText !== '' && 'hide'}`}
+            className={`${!this.props.isCleaned && 'hide'}`}
             onClick={() => this.input.focus()} />
         </IconContainer>
       </TopCard>

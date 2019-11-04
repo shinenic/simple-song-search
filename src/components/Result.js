@@ -38,14 +38,21 @@ class Result extends Component {
       = this.props.volume === ''
         ? this.props.page
         : `${this.props.volume}/${this.props.page}`
-    // 取代歌手中的 "/", "+"，改為換行記號 (需要配合 white-space: pre-wrap;)
-    const artistText = this.props.artist.replace(/[\/\+]/ig, '\n');
+
+    let artistText    
+    if(this.props.artist === '' || this.props.artist === 'XXX'){
+      // 以 "-" 代替沒有歌手的資料欄位
+      artistText = '-'
+    } else {
+      // 取代歌手中的 "/", "+"，改為換行記號 (需要配合 white-space: pre-wrap;)
+      artistText = this.props.artist.replace(/[/+]/ig, '\n')
+    }
     return (
       <Row>
         <Title onDoubleClick={() => {
           const check = window.confirm(`連結至Youtube搜尋 "${this.props.title}" `);
           if (check) {
-            window.open(`https://www.youtube.com/results?search_query=${this.props.title}+${this.props.artist.replace(/[\/\+]/ig, '+')} `, '_blank').focus()
+            window.open(`https://www.youtube.com/results?search_query=${this.props.title}+${this.props.artist.replace(/[/+]/ig, '+')} `, '_blank').focus()
           }
         }}>{this.props.title}</Title>
         <Artist onDoubleClick={() => this.props.findArtist()}>{artistText}</Artist>
