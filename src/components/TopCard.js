@@ -8,10 +8,11 @@ import Search from "../img/search.svg"
 const TopCard = styled.div`
   width:100% ;
   height:4rem;
-  background: rgb(32,33,36,0.5);
-  /* position:relative; */
+  background: rgb(32,33,36);
+  opacity:0.8;
+  z-index:10;
   position: sticky;
-  top:0;
+  top:10px;
 `;
 const IconContainer = styled.div`
   position: absolute;

@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
+const FadeIn = keyframes`
+ from{
+    opacity:0;
+    }
+  to{
+    opacity:1;
+  }
+`;
 const Row = styled.div`
   display:grid;
   width:calc(100% - 2rem);
@@ -10,6 +18,8 @@ const Row = styled.div`
   margin:2rem 1rem;
   grid-template-columns:0.6fr 0.4fr 5rem;
   grid-template-areas:"title artist position";
+  opacity:0;
+  animation: ${FadeIn} 0.8s 1 both ;
 `;
 const GridCenter = styled.div`
   display:grid;
