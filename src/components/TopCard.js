@@ -44,10 +44,8 @@ const Input = styled.input`
   margin: 0 auto;
   padding:0 4rem;
   border-radius: 5px;
-  /* border:2px solid rgb(36,37,41); */
-  /* border:none; */
   border: 3px solid transparent;
-  letter-spacing: 0.2ex;
+  letter-spacing: 0.1ex;
   font-size: 1.4rem;
   color: rgb(234,236,235);
   background: rgb(46,47,51);
@@ -60,8 +58,6 @@ const Input = styled.input`
     /* 選擇輸入框的 ICON */
     & ~ div > img{
       filter:invert(0.6);
-      /* background:rgb(56,57,61); */
-      /* transform:scale(1.1); */
     }
   }
   &::placeholder { 

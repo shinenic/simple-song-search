@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const Row = styled.div`
   display:grid;
-  /* padding:0 1rem; */
   width:calc(100% - 2rem);
   color:rgb(247,246,248);
   font-size:1.1rem;
@@ -16,19 +15,18 @@ const GridCenter = styled.div`
   display:grid;
   align-items:center;
   justify-content:center;
-  /* border:1px solid white; */
   padding:0;
+  width:100%;
+  user-select: none;
 `;
 const Title = styled(GridCenter)`
   justify-content:start;
   grid-area:title;
-  width:100%;
 `;
 const Artist = styled(GridCenter)`
   grid-area:artist;
   white-space: pre-wrap;
   text-align:center;
-  width:100%;
 `;
 const Position = styled(GridCenter)`
   grid-area:position;  
@@ -44,9 +42,13 @@ class Result extends Component {
     const artistText = this.props.artist.replace(/[\/\+]/ig, '\n');
     return (
       <Row>
-        <Title><span>{this.props.title}</span></Title>
-        {/* <Title><div>{this.props.title}</div></Title> */}
-        <Artist className="artist">{artistText}</Artist>
+        <Title onDoubleClick={() => {
+          const check = window.confirm(`連結至Youtube搜尋 "${this.props.title}" `);
+          if (check) {
+            window.open(`https://www.youtube.com/results?search_query=${this.props.title}+${this.props.artist.replace(/[\/\+]/ig, '+')} `, '_blank').focus()
+          }
+        }}>{this.props.title}</Title>
+        <Artist onDoubleClick={() => this.props.findArtist()}>{artistText}</Artist>
         <Position>{positionText}</Position>
       </Row>
     )
