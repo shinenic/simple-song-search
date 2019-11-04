@@ -28,12 +28,12 @@ const IconContainer = styled.div`
 const Icon = styled.img`
   max-height: 1.6rem;
   transition:filter 0.5s;
-  filter:invert(0.4);
+  filter:invert(0.6);
   cursor: pointer; 
 `;
 const CrossImg = styled(Icon)`
   content:url(${Cross});
-  filter:invert(0.7);
+  filter:invert(0.9);
 `;
 const SearchImg = styled(Icon)`
   content:url(${Search});
@@ -52,7 +52,7 @@ const Input = styled.input`
   letter-spacing: 0.1ex;
   font-size: 1.4rem;
   color: rgb(234,236,235);
-  background: rgb(46,47,51);
+  background: rgb(66,67,71);
   display:block;
   color:white;
   transition:0.5s;
@@ -61,14 +61,14 @@ const Input = styled.input`
     outline: none;
     /* 選擇輸入框的 ICON */
     & ~ div > img{
-      filter:invert(0.7);
+      filter:invert(0.9);
     }
   }
   &::placeholder { 
     font-size: 1.25rem;
-    letter-spacing: 0.1ex;
+    letter-spacing: 0.15ex;
     color: rgb(137,140,145);
-    opacity: 1; /* Firefox */
+    opacity: 1; /* For Firefox */
   }
 `
 class SearchInput extends Component {
@@ -102,7 +102,7 @@ class SearchInput extends Component {
           onBlur={() => this.handleBlur()}
           ref={(ref) => { this.input = ref }} />
         <IconContainer dir='left'>
-          <MenuImg />
+          <MenuImg onClick={() => this.input.focus()}/>
         </IconContainer>
         <IconContainer dir='right'>
           <CrossImg

@@ -7,7 +7,7 @@ import dataArray from './components/dataArray'
 import styled, { keyframes } from 'styled-components'
 
 const INIT_RESULT_COUNT = 14
-const ADD_RESULT_COUNT = 14
+const ADD_RESULT_COUNT = 20
 const zhuyin = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/
 
 // TODO: test is correct REGEX
@@ -73,7 +73,7 @@ class App extends Component {
       if (this.state.currentCount !== this.state.result.length) {
         this.setState({
           currentCount: this.state.currentCount + ADD_RESULT_COUNT > this.state.result.length
-            ? this.state.result.length
+            ? this.state.result.length + 1
             : this.state.currentCount + ADD_RESULT_COUNT
         })
       }
@@ -92,7 +92,7 @@ class App extends Component {
         isCleaned: false,
         currentCount: INIT_RESULT_COUNT
       })
-      // 如果資料有變動，移動到最上方 (平滑的)
+      // 如果資料有變動，移動到最上方
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
@@ -112,10 +112,8 @@ class App extends Component {
   }
   clearInputText() {
     if (this.state.inputText !== '') {
-      // 僅更新 inputText, result 不會更新到
-      this.setState({ inputText: '' })
-      // 移動到最上方 (平滑的)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      this.setState({ inputText: '' }) // 僅更新 inputText, result 不會更新到
+      window.scrollTo({ top: 0, behavior: 'smooth' }) // 移動到最上方
     } else {
       this.setState({ result: [], isCleaned: true })
     }
@@ -129,7 +127,7 @@ class App extends Component {
   render() {
     return (
       <MainDiv className="main">
-        <div style={{ height: '25px' }} />
+        <div style={{ height: '35px' }} />
         <TopCard
           inputText={this.state.inputText}
           isCleaned={this.state.isCleaned}
