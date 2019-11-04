@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import TopCard from './components/TopCard'
 import Result from './components/Result'
 import matchSorter from 'match-sorter'
+import { withRouter } from 'react-router-dom'
 import dataArray from './components/dataArray'
 import styled, { keyframes } from 'styled-components'
 
@@ -54,6 +55,12 @@ class App extends Component {
     }
   }
   componentDidMount() {
+    // 初始化時讀取 url query string (decode utf-8) & 設定 scroll 事件
+    const query = decodeURI(window.location.href).split('=')
+    if (query.length === 2) {
+      this.search(query[1])
+      this.updateInputText(query[1])
+    }
     window.addEventListener('scroll', () => this.handleScroll())
   }
   componentWillUnmount() {
@@ -98,6 +105,8 @@ class App extends Component {
         this.setState({
           history: [content, ...this.state.history]
         })
+        // 利用 url 存取上一次的搜尋紀錄
+        this.props.history.push(encodeURI(`search?s=${content}`))
       }
     }
   }
@@ -110,7 +119,7 @@ class App extends Component {
     } else {
       this.setState({ result: [], isCleaned: true })
     }
-
+    this.props.history.push('')
   }
   findArtist(artist) {
     this.search(artist)
@@ -118,7 +127,6 @@ class App extends Component {
     this.addHistory(artist)
   }
   render() {
-    console.log(this.state.history)
     return (
       <MainDiv className="main">
         <div style={{ height: '25px' }} />
@@ -151,4 +159,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default withRouter(App)

@@ -75,7 +75,6 @@ class SearchInput extends Component {
   constructor() {
     super()
     this.timeOutHistory = null
-    this.timeOutSearch = null
   }
   handleChange(e) {
     this.props.updateInputText(e.target.value)
@@ -89,12 +88,7 @@ class SearchInput extends Component {
     clearTimeout(this.timeOutHistory)
     this.timeOutHistory = setTimeout(() => {
       this.props.addHistory(this.props.inputText)
-    }, 2000)
-    // 設定時間內未輸入才執行搜尋
-    // clearTimeout(this.timeOutHistory)
-    // this.timeOutHistory = setTimeout(() => {
-    //   this.props.addHistory(this.props.inputText)
-    // }, 2000)
+    }, 1000)
   }
   render() {
     return (

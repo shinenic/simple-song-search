@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './styles/index.scss'
-import { BrowserRouter, Switch } from 'react-router-dom'
+import { BrowserRouter, Switch} from 'react-router-dom'
 import App from './App'
 // import { ThemeProvider } from "styled-components"
 import * as serviceWorker from './serviceWorker'
