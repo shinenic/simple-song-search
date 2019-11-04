@@ -34,7 +34,7 @@ const FadeIn = keyframes`
 const NoResultHint = styled.div`
   height:300px;
   width:100%;
-  color:rgb(177,180,185);
+  color: rgb(207,210,215);
   font-size: 1.25rem;
   line-height:300px;
   text-align:center;
