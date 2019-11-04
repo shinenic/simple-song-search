@@ -1,89 +1,56 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const Title = styled.div`
-  text-align:left;
-  font-size:17px;
-  color:rgb(26,13,189);
-  font-weight:bold;
-  width:50%;
-  float:left;
-  /* overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap; */
+const Row = styled.div`
+  display:grid;
+  /* padding:0 1rem; */
+  width:calc(100% - 2rem);
+  color:rgb(247,246,248);
+  font-size:1.1rem;
+  line-height:1.6rem;
+  margin:2rem 1rem;
+  grid-template-columns:0.6fr 0.4fr 5rem;
+  grid-template-areas:"title artist position";
 `;
-const Artist = styled.div`
+const GridCenter = styled.div`
+  display:grid;
+  align-items:center;
+  justify-content:center;
+  /* border:1px solid white; */
+  padding:0;
+`;
+const Title = styled(GridCenter)`
+  justify-content:start;
+  grid-area:title;
+  width:100%;
+`;
+const Artist = styled(GridCenter)`
+  grid-area:artist;
+  white-space: pre-wrap;
   text-align:center;
-  font-size:14px;
-  font-weight:bold;
-  width:30%;
-  float:left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
+  width:100%;
 `;
-const Position = styled.div`
-  text-align:right;
-  font-size:17px;
-  font-weight:bold;
-  width:20%;
-  float:left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+const Position = styled(GridCenter)`
+  grid-area:position;  
 `;
-
-const ResultDiv = styled.div`
-  display: table-row;
-`;
-
 
 class Result extends Component {
-  copyToClipboard(copyText) {
-    var textField = document.createElement('textarea');
-    textField.innerText = copyText;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    textField.remove();
-  }
   render() {
-    const MultiArtist = {
-      'line-height': '8px'
-    }
-    const Over104 = {
-      color: 'red'
-    }
-    const IsMultiArtist = this.props.artist.indexOf('/') !== -1 ? true : false;
-    const NewArtistText = this.props.artist.split("/").map((item, i) => <p key={i}>{item}</p>);
-    const positionText = this.props.volume ? parseInt(this.props.volume) + "/" + parseInt(this.props.page) : "" + parseInt(this.props.page);
-    //判斷是否需要換行
-    const EngRegExp = /^[\d|a-zA-Z1-9]+$/;
-    let flag = 0;
-    for (let i = 0; i < this.props.title.toString().length; i++) {
-      if (EngRegExp.test(this.props.title.toString().slice(i, i + 1)))
-        flag += 0.5;
-      else
-        flag += 1;
-    }
-    const TitleBreakLine = flag > 9 ? true : false;
+    const positionText
+      = this.props.volume === ''
+        ? this.props.page
+        : `${this.props.volume}/${this.props.page}`
+    // 取代歌手中的 "/", "+"，改為換行記號 (需要配合 white-space: pre-wrap;)
+    const artistText = this.props.artist.replace(/[\/\+]/ig, '\n');
     return (
-      <ResultDiv>
-        {/* onClick={console.log(this.props.title)} */}
-        <Title
-          style={TitleBreakLine ? { 'line-height': '27px', 'margin-bottom': '14px' } : {}}
-        >{this.props.title}</Title>
-        <Artist
-          style={IsMultiArtist ? MultiArtist : {}}
-          onDoubleClick={() => this.props.artistClick(this.props.artist)}>
-          {IsMultiArtist ? NewArtistText : (this.props.artist ? this.props.artist : "-")}
-        </Artist>
-        <Position
-          style={parseInt(this.props.volume) > 104 ? Over104 : {}}>{positionText}</Position>
-      </ResultDiv>
-    );
+      <Row>
+        <Title><span>{this.props.title}</span></Title>
+        {/* <Title><div>{this.props.title}</div></Title> */}
+        <Artist className="artist">{artistText}</Artist>
+        <Position>{positionText}</Position>
+      </Row>
+    )
   }
 }
 
-export default Result;
+export default Result

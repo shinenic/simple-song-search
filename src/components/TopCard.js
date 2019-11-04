@@ -40,7 +40,6 @@ const MenuImg = styled(CrossImg)`
 
 const Input = styled.input`
   width: calc(100% - 2rem);
-  /* width:100%; */
   height: 100%;
   margin: 0 auto;
   padding:0 4rem;
@@ -80,6 +79,7 @@ class SearchInput extends Component {
   }
   handleChange(e) {
     this.props.updateInputText(e.target.value)
+    this.props.search(e.target.value)
   }
   handleBlur() {
     this.props.addHistory(this.props.inputText)
