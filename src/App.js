@@ -4,11 +4,11 @@ import Result from './components/Result'
 import matchSorter from 'match-sorter'
 import { withRouter } from 'react-router-dom'
 import dataArray from './components/dataArray'
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes, createGlobalStyle, ThemeProvider } from 'styled-components'
 import axios from 'axios'
 
-const INIT_RESULT_COUNT = 14
-const ADD_RESULT_COUNT = 20
+const INIT_RESULT_COUNT = 20
+const ADD_RESULT_COUNT = 50
 const zhuyin = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/
 
 // TODO: 拆出 HOC
@@ -17,9 +17,16 @@ const clearAllBlank = (str) => {
   return str.replace(/[\r\n\s]/g, '')
 }
 
+const GlobalStyle = createGlobalStyle`
+  html {
+    /* background:rgb(32, 33, 36); */
+    background:${props => props.theme.main}
+  }
+`
 const MainDiv = styled.div`
   margin: 0px;
   padding: 0px;
+  /* background:rgb(32, 33, 36); */
   position: relative;
   width: 100%;
 `;
@@ -34,16 +41,22 @@ const FadeIn = keyframes`
   }
 `;
 const NoResultHint = styled.div`
-  height:300px;
+  height:23rem;
   width:100%;
   color: rgb(207,210,215);
   font-size: 1.25rem;
-  line-height:300px;
+  line-height:23rem;
   text-align:center;
   opacity:0;
   transform:translateY(10px);
   animation: ${FadeIn} 0.8s 1 both ;
 `;
+const lightTheme = {
+  main: "mediumseagreen"
+};
+const darkTheme = {
+  main: "black"
+};
 
 class App extends Component {
   constructor() {
@@ -53,7 +66,8 @@ class App extends Component {
       result: [],
       history: [],
       isCleaned: true,
-      currentCount: INIT_RESULT_COUNT
+      currentCount: INIT_RESULT_COUNT,
+      darkTheme: true
     }
   }
   componentDidMount() {
@@ -71,7 +85,7 @@ class App extends Component {
   // TODO: 卷軸捲到低於 XXX 時，顯示一個可以移動到 TOP 的圖標 
   handleScroll() {
     if ((window.innerHeight + window.pageYOffset)
-      >= document.body.offsetHeight - 1) {
+      >= document.body.offsetHeight - 60) {
       if (this.state.currentCount !== this.state.result.length) {
         this.setState({
           currentCount: this.state.currentCount + ADD_RESULT_COUNT > this.state.result.length
@@ -109,10 +123,9 @@ class App extends Component {
         })
         // 利用 url 存取上一次的搜尋紀錄
         this.props.history.push(encodeURI(`search?s=${content}`))
+        // 將資料存入 database (ss)
         axios.post(`https://songsearch.kadenzwei.com/api/ss`, { "content": content })
-          .then(res => {
-            console.log('res=>', res);
-          })
+          .then(res => { console.log('res=>', res); })
       }
     }
   }
@@ -131,35 +144,42 @@ class App extends Component {
     this.updateInputText(artist)
     this.addHistory(artist)
   }
+  toggleTheme() {
+    this.setState({ darkTheme: !this.state.darkTheme })
+  }
   render() {
     return (
-      <MainDiv className="main">
-        <div style={{ height: '35px' }} />
-        <TopCard
-          inputText={this.state.inputText}
-          isCleaned={this.state.isCleaned}
-          clearInputText={() => this.clearInputText()}
-          updateInputText={str => this.updateInputText(str)}
-          search={str => this.search(str)}
-          addHistory={str => this.addHistory(str)} />
-        {this.state.result.slice(0, this.state.currentCount).map((data, index) =>
-          <Result
-            key={index}
-            title={data[0]}
-            artist={data[1]}
-            volume={data[2]}
-            page={data[3]}
-            findArtist={() => this.findArtist(data[1])} />
-        )}
-        {this.state.result.length === 0 &&
-          (this.state.inputText !== '' && !zhuyin.test(clearAllBlank(this.state.inputText).slice(-1))
-            ? <NoResultHint>
-              Nothing Found.
+      <ThemeProvider theme={this.state.darkTheme ? darkTheme : lightTheme}>
+        <MainDiv className="main">
+          <GlobalStyle />
+          <div style={{ height: '35px' }} />
+          <TopCard
+            inputText={this.state.inputText}
+            isCleaned={this.state.isCleaned}
+            clearInputText={() => this.clearInputText()}
+            toggleTheme={() => this.toggleTheme()}
+            updateInputText={str => this.updateInputText(str)}
+            search={str => this.search(str)}
+            addHistory={str => this.addHistory(str)} />
+          {this.state.result.slice(0, this.state.currentCount).map((data, index) =>
+            <Result
+              key={index}
+              title={data[0]}
+              artist={data[1]}
+              volume={data[2]}
+              page={data[3]}
+              findArtist={() => this.findArtist(data[1])} />
+          )}
+          {this.state.result.length === 0 &&
+            (this.state.inputText !== '' && !zhuyin.test(clearAllBlank(this.state.inputText).slice(-1))
+              ? <NoResultHint>
+                Nothing Found.
             </NoResultHint>
-            : <NoResultHint>
-              Please Enter Something to Search.
+              : <NoResultHint>
+                Please Enter Something to Search.
           </NoResultHint>)}
-      </MainDiv>
+        </MainDiv>
+      </ThemeProvider>
     )
   }
 }

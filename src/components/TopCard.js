@@ -102,12 +102,14 @@ class SearchInput extends Component {
           onBlur={() => this.handleBlur()}
           ref={(ref) => { this.input = ref }} />
         <IconContainer dir='left'>
-          <MenuImg onClick={() => this.input.focus()}/>
+          <MenuImg
+            // onClick={() => this.input.focus()} 
+            onClick={() => this.props.toggleTheme()} />
         </IconContainer>
         <IconContainer dir='right'>
           <CrossImg
-            onClick={() => this.props.clearInputText()}
-            className={`${this.props.isCleaned && 'hide'}`} />
+            className={`${this.props.isCleaned && 'hide'}`}
+            onClick={() => this.props.clearInputText()} />
           <SearchImg
             className={`${!this.props.isCleaned && 'hide'}`}
             onClick={() => this.input.focus()} />

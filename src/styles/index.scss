@@ -8,15 +8,27 @@ body,
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
-  background: rgb(32, 33, 36);
+  // background: rgb(32, 33, 36);
   box-sizing: border-box;
   width: 100%;
   -webkit-tap-highlight-color: transparent;
+}
+html {
+  font-size: 16px;
+  @media (max-width: 390px) {
+    font-size: 14.5px;
+  }
 }
 *,
 *::before,
 *::after {
   box-sizing: inherit;
+  transition: background 0.3s, color 0.3s;
+  /* disable highlight */
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
 }
 input {
   font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei",
