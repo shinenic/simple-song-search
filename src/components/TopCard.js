@@ -27,7 +27,7 @@ const IconContainer = styled.div`
 `;
 const Icon = styled.img`
   max-height: 1.6rem;
-  transition:filter 0.5s;
+  transition:filter 0.3s;
   filter:invert(0.6);
   cursor: pointer; 
 `;
@@ -55,7 +55,7 @@ const Input = styled.input`
   background: rgb(66,67,71);
   display:block;
   color:white;
-  transition:0.5s;
+  transition:0.3s;
   &:focus{
     border: 3px solid #999;
     outline: none;
