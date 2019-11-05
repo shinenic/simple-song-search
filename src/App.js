@@ -10,6 +10,7 @@ const INIT_RESULT_COUNT = 14
 const ADD_RESULT_COUNT = 20
 const zhuyin = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/
 
+// TODO: 拆出 HOC
 // TODO: test is correct REGEX
 const clearAllBlank = (str) => {
   return str.replace(/[\r\n\s]/g, '')
@@ -113,6 +114,7 @@ class App extends Component {
   clearInputText() {
     if (this.state.inputText !== '') {
       this.setState({ inputText: '' }) // 僅更新 inputText, result 不會更新到
+      // 建立 smooth 的 polyfill
       window.scrollTo({ top: 0, behavior: 'smooth' }) // 移動到最上方
     } else {
       this.setState({ result: [], isCleaned: true })
