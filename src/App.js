@@ -17,11 +17,11 @@ const clearAllBlank = (str) => {
   return str.replace(/[\r\n\s]/g, '')
 }
 
-// const GlobalStyle = createGlobalStyle`
-//   html {
-//     background:${props => props.theme.main}
-//   }
-// `
+const GlobalStyle = createGlobalStyle`
+  html {
+    background:${props => props.theme.main[0]}
+  }
+`
 const MainDiv = styled.div`
   margin: 0px;
   padding: 0px;
@@ -54,7 +54,12 @@ const lightTheme = {
   main: "mediumseagreen"
 };
 const darkTheme = {
-  main: "rgb(32, 33, 36)"
+  // main-black, second-black
+  main: ['rgb(32, 33, 36)', 'rgb(66, 67, 71)'],
+  // input-text(還要考慮透明度), result-text, no-data-text, placehoder-text
+  text: ['white', 'rgb(247, 246, 248)', 'rgb(207, 210, 215)','rgb(197, 200, 205)'],
+  // icon-regular, icon-active
+  icon: ['invert(0.6)', 'invert(0.9)']
 };
 
 class App extends Component {
@@ -148,9 +153,9 @@ class App extends Component {
   }
   render() {
     return (
-      // <ThemeProvider theme={this.state.darkTheme ? darkTheme : lightTheme}>
+      <ThemeProvider theme={this.state.darkTheme ? darkTheme : lightTheme}>
         <MainDiv className="main">
-          {/* <GlobalStyle /> */}
+          <GlobalStyle />
           <div style={{ height: '35px' }} />
           <TopCard
             inputText={this.state.inputText}
@@ -178,7 +183,7 @@ class App extends Component {
                 Please Enter Something to Search.
           </NoResultHint>)}
         </MainDiv>
-      // </ThemeProvider>
+      </ThemeProvider>
     )
   }
 }

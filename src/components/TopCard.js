@@ -51,7 +51,6 @@ const Input = styled.input`
   border: 3px solid transparent;
   letter-spacing: 0.1ex;
   font-size: 1.4rem;
-  color: rgb(244,246,245);
   background: rgb(66,67,71);
   display:block;
   color:white;
