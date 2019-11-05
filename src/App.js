@@ -5,6 +5,7 @@ import matchSorter from 'match-sorter'
 import { withRouter } from 'react-router-dom'
 import dataArray from './components/dataArray'
 import styled, { keyframes } from 'styled-components'
+import axios from 'axios'
 
 const INIT_RESULT_COUNT = 14
 const ADD_RESULT_COUNT = 20
@@ -108,6 +109,10 @@ class App extends Component {
         })
         // 利用 url 存取上一次的搜尋紀錄
         this.props.history.push(encodeURI(`search?s=${content}`))
+        axios.post(`http://localhost:5002/api/ss`, { "content": content })
+          .then(res => {
+            console.log('res=>', res);
+          })
       }
     }
   }
