@@ -109,7 +109,7 @@ class App extends Component {
         })
         // 利用 url 存取上一次的搜尋紀錄
         this.props.history.push(encodeURI(`search?s=${content}`))
-        axios.post(`http://localhost:5002/api/ss`, { "content": content })
+        axios.post(`https://songsearch.kadenzwei.com/api/ss`, { "content": content })
           .then(res => {
             console.log('res=>', res);
           })
