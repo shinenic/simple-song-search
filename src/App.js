@@ -51,13 +51,13 @@ const NoResultHint = styled.div`
 `;
 const lightTheme = {
   // main-white, second-white
-  main: ['rgb(247, 246, 248)', 'rgb(217, 220, 225)'],
+  main: ['rgb(237, 236, 238)', 'rgb(207, 210, 215)'],
   // input-text(還要考慮透明度), result-text, no-data-text, placehoder-text
   text: ['black', 'rgb(9, 7, 10)', 'rgb(49, 46, 37)', 'rgb(59, 56, 50)'],
   // icon-regular, icon-active
   icon: ['invert(0.2)', 'invert(0)'],
   // input-border
-  border: 'rgb(103, 103, 103)'
+  border: 'rgb(153, 153, 153)'
 };
 const darkTheme = {
   // main-black, second-black
