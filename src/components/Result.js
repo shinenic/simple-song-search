@@ -12,8 +12,9 @@ const FadeIn = keyframes`
 const Row = styled.div`
   display:grid;
   width:calc(100% - 2rem);
-  color:rgb(247,246,248);
-  font-size:1.4rem;
+  color:${props => props.theme.text[1]};
+  font-size:1.2rem;
+  font-weight:bold;
   line-height:1.6rem;
   margin:2rem 1rem 3rem 1rem;
   grid-template-columns:0.6fr 0.4fr 5rem;
@@ -28,12 +29,14 @@ const GridCenter = styled.div`
   padding:0;
   width:100%;
   user-select: none;
+  overflow:hidden;
 `;
 const Title = styled(GridCenter)`
   justify-content:start;
   grid-area:title;
 `;
 const Artist = styled(GridCenter)`
+  font-size:1.1rem;
   grid-area:artist;
   white-space: pre-wrap;
   text-align:center;

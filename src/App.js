@@ -17,15 +17,14 @@ const clearAllBlank = (str) => {
   return str.replace(/[\r\n\s]/g, '')
 }
 
-// const GlobalStyle = createGlobalStyle`
-//   html {
-//     background:${props => props.theme.main}
-//   }
-// `
+const GlobalStyle = createGlobalStyle`
+  html {
+    background:${props => props.theme.main[0]};
+  }
+`
 const MainDiv = styled.div`
   margin: 0px;
   padding: 0px;
-  /* background:rgb(32, 33, 36); */
   position: relative;
   width: 100%;
 `;
@@ -42,7 +41,7 @@ const FadeIn = keyframes`
 const NoResultHint = styled.div`
   height:23rem;
   width:100%;
-  color: rgb(207,210,215);
+  color:${props => props.theme.text[2]};
   font-size: 1.25rem;
   line-height:23rem;
   text-align:center;
@@ -51,10 +50,24 @@ const NoResultHint = styled.div`
   animation: ${FadeIn} 0.8s 1 both ;
 `;
 const lightTheme = {
-  main: "mediumseagreen"
+  // main-white, second-white
+  main: ['rgb(237, 236, 238)', 'rgb(207, 210, 215)'],
+  // input-text(還要考慮透明度), result-text, no-data-text, placehoder-text
+  text: ['black', 'rgb(9, 7, 10)', 'rgb(49, 46, 37)', 'rgb(59, 56, 50)'],
+  // icon-regular, icon-active
+  icon: ['invert(0.2)', 'invert(0)'],
+  // input-border
+  border: 'rgb(153, 153, 153)'
 };
 const darkTheme = {
-  main: "rgb(32, 33, 36)"
+  // main-black, second-black
+  main: ['rgb(32, 33, 36)', 'rgb(66, 67, 71)'],
+  // input-text(還要考慮透明度), result-text, no-data-text, placehoder-text
+  text: ['white', 'rgb(247, 246, 248)', 'rgb(207, 210, 215)', 'rgb(197, 200, 205)'],
+  // icon-regular, icon-active
+  icon: ['invert(0.6)', 'invert(0.9)'],
+  // input-border
+  border: 'rgb(153, 153, 153)'
 };
 
 class App extends Component {
@@ -66,7 +79,7 @@ class App extends Component {
       history: [],
       isCleaned: true,
       currentCount: INIT_RESULT_COUNT,
-      darkTheme: true
+      theme: 'INIT'
     }
   }
   componentDidMount() {
@@ -144,13 +157,13 @@ class App extends Component {
     this.addHistory(artist)
   }
   toggleTheme() {
-    this.setState({ darkTheme: !this.state.darkTheme })
+    this.setState({ theme: !this.state.theme })
   }
   render() {
     return (
-      // <ThemeProvider theme={this.state.darkTheme ? darkTheme : lightTheme}>
+      <ThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
         <MainDiv className="main">
-          {/* <GlobalStyle /> */}
+          <GlobalStyle />
           <div style={{ height: '35px' }} />
           <TopCard
             inputText={this.state.inputText}
@@ -178,7 +191,7 @@ class App extends Component {
                 Please Enter Something to Search.
           </NoResultHint>)}
         </MainDiv>
-      // </ThemeProvider>
+      </ThemeProvider >
     )
   }
 }
