@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
-import Menu from "../img/menu.svg"
+import Menu from "../img/half.svg"
 import Cross from "../img/cross.svg"
 import Search from "../img/search.svg"
 
@@ -40,6 +40,7 @@ const SearchImg = styled(Icon)`
 `;
 const MenuImg = styled(Icon)`
   content:url(${Menu});
+  filter:${props => props.theme.icon[0]};
 `;
 
 const Input = styled.input`
