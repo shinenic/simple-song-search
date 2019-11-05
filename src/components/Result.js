@@ -14,6 +14,7 @@ const Row = styled.div`
   width:calc(100% - 2rem);
   color:${props => props.theme.text[1]};
   font-size:1.2rem;
+  font-weight:bold;
   line-height:1.6rem;
   margin:2rem 1rem 3rem 1rem;
   grid-template-columns:0.6fr 0.4fr 5rem;
