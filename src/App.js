@@ -17,12 +17,11 @@ const clearAllBlank = (str) => {
   return str.replace(/[\r\n\s]/g, '')
 }
 
-const GlobalStyle = createGlobalStyle`
-  html {
-    /* background:rgb(32, 33, 36); */
-    background:${props => props.theme.main}
-  }
-`
+// const GlobalStyle = createGlobalStyle`
+//   html {
+//     background:${props => props.theme.main}
+//   }
+// `
 const MainDiv = styled.div`
   margin: 0px;
   padding: 0px;
@@ -55,7 +54,7 @@ const lightTheme = {
   main: "mediumseagreen"
 };
 const darkTheme = {
-  main: "black"
+  main: "rgb(32, 33, 36)"
 };
 
 class App extends Component {
@@ -149,9 +148,9 @@ class App extends Component {
   }
   render() {
     return (
-      <ThemeProvider theme={this.state.darkTheme ? darkTheme : lightTheme}>
+      // <ThemeProvider theme={this.state.darkTheme ? darkTheme : lightTheme}>
         <MainDiv className="main">
-          <GlobalStyle />
+          {/* <GlobalStyle /> */}
           <div style={{ height: '35px' }} />
           <TopCard
             inputText={this.state.inputText}
@@ -179,7 +178,7 @@ class App extends Component {
                 Please Enter Something to Search.
           </NoResultHint>)}
         </MainDiv>
-      </ThemeProvider>
+      // </ThemeProvider>
     )
   }
 }
