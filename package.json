@@ -1,7 +1,6 @@
 {
   "name": "simple-song-search",
   "version": "0.1.0",
-  "homepage": "http://shinenic.github.io/simple-song-search",
   "private": true,
   "dependencies": {
     "match-sorter": "^4.0.2",
