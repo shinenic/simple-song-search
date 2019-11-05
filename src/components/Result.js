@@ -12,7 +12,7 @@ const FadeIn = keyframes`
 const Row = styled.div`
   display:grid;
   width:calc(100% - 2rem);
-  color:rgb(247,246,248);
+  color:${props => props.theme.text[1]};
   font-size:1.4rem;
   line-height:1.6rem;
   margin:2rem 1rem 3rem 1rem;

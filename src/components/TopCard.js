@@ -8,7 +8,7 @@ import Search from "../img/search.svg"
 const TopCard = styled.div`
   width:100% ;
   height:4rem;
-  background: rgb(32,33,36);
+  background:${props => props.theme.main[0]};
   opacity:0.8;
   z-index:10;
   position: sticky;
@@ -28,12 +28,12 @@ const IconContainer = styled.div`
 const Icon = styled.img`
   max-height: 1.6rem;
   transition:filter 0.3s;
-  filter:invert(0.6);
+  filter:${props => props.theme.icon[0]};
   cursor: pointer; 
 `;
 const CrossImg = styled(Icon)`
   content:url(${Cross});
-  filter:invert(0.9);
+  filter:${props => props.theme.icon[1]};
 `;
 const SearchImg = styled(Icon)`
   content:url(${Search});
@@ -51,22 +51,22 @@ const Input = styled.input`
   border: 3px solid transparent;
   letter-spacing: 0.1ex;
   font-size: 1.4rem;
-  background: rgb(66,67,71);
+  background:${props => props.theme.main[1]};
   display:block;
-  color:white;
-  transition:0.3s;
+  color:${props => props.theme.text[0]};
+  transition:border 0.3s;
   &:focus{
-    border: 3px solid #999;
+    border: 3px solid ${props => props.theme.border};
     outline: none;
     /* 選擇輸入框的 ICON */
     & ~ div > img{
-      filter:invert(0.9);
+      filter:${props => props.theme.icon[1]};
     }
   }
   &::placeholder { 
     font-size: 1.25rem;
     letter-spacing: 0.15ex;
-    color: rgb(197,200,205);
+    color:${props => props.theme.text[3]};
     opacity: 1; /* For Firefox */
   }
 `
