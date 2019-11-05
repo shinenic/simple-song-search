@@ -49,7 +49,7 @@ const Input = styled.input`
   margin: 0 auto;
   padding:0 4rem;
   border-radius: 5px;
-  border: 3px solid transparent;
+  border: 1.9px solid transparent;
   letter-spacing: 0.1ex;
   font-size: 1.4rem;
   background:${props => props.theme.main[1]};
@@ -57,7 +57,7 @@ const Input = styled.input`
   color:${props => props.theme.text[0]};
   transition:border 0.3s;
   &:focus{
-    border: 3px solid ${props => props.theme.border};
+    border: 1.9px solid ${props => props.theme.border};
     outline: none;
     /* 選擇輸入框的 ICON */
     & ~ div > img{
