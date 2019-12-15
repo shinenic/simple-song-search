@@ -83,7 +83,7 @@ class App extends Component {
 
   componentDidMount() {
     // Set scroll event listener
-    const { s: searchParam, incognito } = this.getUrlParams()
+    const { s: searchParam } = this.getUrlParams()
     if (searchParam) {
       this.search(searchParam)
       this.updateInputText(searchParam)
@@ -98,7 +98,6 @@ class App extends Component {
   // Return a object of url's params
   getUrlParams() {
     const queries = decodeURI(window.location.href).split('?')[1]
-    console.log(queries)
     return queries
       ? queries.split('&').reduce((acc, value) => {
         acc[value.split('=')[0]] = value.split('=')[1]
@@ -175,7 +174,7 @@ class App extends Component {
   toggleTheme() {
     this.setState({ theme: !this.state.theme })
   }
-  
+
   render() {
     return (
       <ThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
