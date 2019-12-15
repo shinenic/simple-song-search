@@ -11,8 +11,7 @@ const INIT_RESULT_COUNT = 20
 const ADD_RESULT_COUNT = 50
 const zhuyin = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/
 
-// TODO: 拆出 HOC
-// TODO: test is correct REGEX
+// TODO: Apply HOC
 const clearAllBlank = (str) => {
   return str.replace(/[\r\n\s]/g, '')
 }
@@ -49,24 +48,23 @@ const NoResultHint = styled.div`
   transform:translateY(10px);
   animation: ${FadeIn} 0.8s 1 both ;
 `;
+
+/*  Theme Options:
+    main-white, second-white
+    input-text(need to consider opacity), result-text, no-data-text, placehoder-text
+    icon-regular, icon-active
+    input-border  
+*/
 const lightTheme = {
-  // main-white, second-white
   main: ['rgb(237, 236, 238)', 'rgb(207, 210, 215)'],
-  // input-text(還要考慮透明度), result-text, no-data-text, placehoder-text
   text: ['black', 'rgb(9, 7, 10)', 'rgb(49, 46, 37)', 'rgb(59, 56, 50)'],
-  // icon-regular, icon-active
   icon: ['invert(0.2)', 'invert(0)'],
-  // input-border
   border: 'rgb(153, 153, 153)'
 };
 const darkTheme = {
-  // main-black, second-black
   main: ['rgb(32, 33, 36)', 'rgb(66, 67, 71)'],
-  // input-text(還要考慮透明度), result-text, no-data-text, placehoder-text
   text: ['white', 'rgb(247, 246, 248)', 'rgb(207, 210, 215)', 'rgb(197, 200, 205)'],
-  // icon-regular, icon-active
   icon: ['invert(0.6)', 'invert(0.9)'],
-  // input-border
   border: 'rgb(153, 153, 153)'
 };
 
@@ -82,34 +80,49 @@ class App extends Component {
       theme: 'INIT'
     }
   }
+
   componentDidMount() {
-    // 初始化時讀取 url query string (decode utf-8) & 設定 scroll 事件
-    const query = decodeURI(window.location.href).split('=')
-    if (query.length === 2) {
-      this.search(query[1])
-      this.updateInputText(query[1])
+    // Set scroll event listener
+    const { s: searchParam, incognito } = this.getUrlParams()
+    if (searchParam) {
+      this.search(searchParam)
+      this.updateInputText(searchParam)
     }
     window.addEventListener('scroll', () => this.handleScroll())
   }
+
   componentWillUnmount() {
     window.removeEventListener('scroll', () => this.handleScroll())
   }
+
+  // Return a object of url's params
+  getUrlParams() {
+    const queries = decodeURI(window.location.href).split('?')[1]
+    console.log(queries)
+    return queries
+      ? queries.split('&').reduce((acc, value) => {
+        acc[value.split('=')[0]] = value.split('=')[1]
+        return acc
+      }, {})
+      : {}
+  }
+
   // TODO: 卷軸捲到低於 XXX 時，顯示一個可以移動到 TOP 的圖標 
   handleScroll() {
-    if ((window.innerHeight + window.pageYOffset)
-      >= document.body.offsetHeight - 60) {
-      if (this.state.currentCount !== this.state.result.length) {
-        this.setState({
-          currentCount: this.state.currentCount + ADD_RESULT_COUNT > this.state.result.length
-            ? this.state.result.length + 1
-            : this.state.currentCount + ADD_RESULT_COUNT
-        })
-      }
+    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 60
+      && this.state.currentCount !== this.state.result.length) {
+      this.setState({
+        currentCount: this.state.currentCount + ADD_RESULT_COUNT > this.state.result.length
+          ? this.state.result.length + 1
+          : this.state.currentCount + ADD_RESULT_COUNT
+      })
     }
   }
+
   updateInputText(str) {
     this.setState({ inputText: str })
   }
+
   search(str) {
     const content = clearAllBlank(str)
     // 最後輸入不為注音且字串不為空
@@ -124,24 +137,25 @@ class App extends Component {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
+
   addHistory(str) {
     const content = clearAllBlank(str)
-    // 取代空白後，最後輸入不為注音
-    if (!zhuyin.test(content.slice(-1))) {
-      // 是否為空字串 OR 尚未有重複紀錄
-      if (content !== '' && (this.state.history.length === 0 || str !== this.state.history[0])) {
-        this.setState({
-          history: [content, ...this.state.history]
-        })
-        // 利用 url 存取上一次的搜尋紀錄
-        this.props.history.push(encodeURI(`search?s=${content}`))
-        // 將資料存入 database (ss)
-        axios.post(`https://songsearch.kadenzwei.com/api/ss`, { "content": content })
-          .then(res => { console.log('res=>', res); })
-      }
+    const { incognito } = this.getUrlParams()
+    const { history } = this.state
+    const incognitoParam = incognito ? '&incognito=true' : ''
+    // 移除空白後，最後輸入不為注音，不為空字串或者尚未有重複之紀錄
+    if (!zhuyin.test(content.slice(-1)) && content !== '' && (history.length === 0 || str !== history[0])) {
+      this.setState({ history: [content, ...history] })
+      // 利用 url 存取上一次的搜尋紀錄
+      this.props.history.push(encodeURI(`search?s=${content}${incognitoParam}`))
+      // 非無痕模式則將資料存入 database (ss)
+      !incognito && axios.post(`https://songsearch.kadenzwei.com/api/ss`, { "content": content })
+        .catch(err => console.log(err))
     }
   }
+
   clearInputText() {
+    const { incognito } = this.getUrlParams()
     if (this.state.inputText !== '') {
       this.setState({ inputText: '' }) // 僅更新 inputText, result 不會更新到
       // 建立 smooth 的 polyfill
@@ -149,16 +163,19 @@ class App extends Component {
     } else {
       this.setState({ result: [], isCleaned: true })
     }
-    this.props.history.push('')
+    this.props.history.push(incognito ? '?incognito=true' : '')
   }
+
   findArtist(artist) {
     this.search(artist)
     this.updateInputText(artist)
     this.addHistory(artist)
   }
+
   toggleTheme() {
     this.setState({ theme: !this.state.theme })
   }
+  
   render() {
     return (
       <ThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
