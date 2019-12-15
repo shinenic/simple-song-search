@@ -18,8 +18,8 @@ const IconContainer = styled.div`
   position: absolute;
   height:4rem;
   width:4rem;
-  left:${props => props.dir === 'left' ? '1rem' : 'unset'};
-  right:${props => props.dir === 'right' ? '1rem' : 'unset'};
+  left:${props => props.position === 'left' ? '1rem' : 'unset'};
+  right:${props => props.position === 'right' ? '1rem' : 'unset'};
   top:0;
   display:flex;
   align-items:center;
@@ -101,17 +101,16 @@ class SearchInput extends Component {
           onKeyUp={() => this.handleKeyUp()}
           onBlur={() => this.handleBlur()}
           ref={(ref) => { this.input = ref }} />
-        <IconContainer dir='left'>
+        <IconContainer position='left'>
           <MenuImg
-            // onClick={() => this.input.focus()} 
             onClick={() => this.props.toggleTheme()} />
         </IconContainer>
-        <IconContainer dir='right'>
+        <IconContainer position='right'>
           <CrossImg
-            className={`${this.props.isCleaned && 'hide'}`}
+            className={this.props.isCleaned ? 'hide' : null}
             onClick={() => this.props.clearInputText()} />
           <SearchImg
-            className={`${!this.props.isCleaned && 'hide'}`}
+            className={this.props.isCleaned ? null : 'hide'}
             onClick={() => this.input.focus()} />
         </IconContainer>
       </TopCard>
