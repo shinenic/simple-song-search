@@ -12,43 +12,30 @@ body,
   width: 100%;
   -webkit-tap-highlight-color: transparent;
 }
+
 html {
-  /* 解決小螢幕手機顯示異常*/
+  /* For Mobile which width is less than 390px */
   font-size: 16px;
   @media (max-width: 390px) {
     font-size: 14.5px;
   }
 }
+
 *,
 *::before,
 *::after {
   box-sizing: inherit;
-  /* disable highlight */
-  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
-  -moz-user-select: none; /* mozilla browsers */
-  -khtml-user-select: none; /* webkit (konqueror) browsers */
-  -ms-user-select: none; /* IE10+ */
 }
+
 input {
   font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei",
     "標楷體", "DFKai-SB", sans-serif;
 }
+
 .hide {
   display: none;
 }
 
-::-webkit-input-placeholder {
-  color: black;
-}
 ::-webkit-scrollbar {
   width: 0px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
