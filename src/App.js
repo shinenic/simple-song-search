@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import axios from 'axios'
+
 import TopCard from './components/TopCard'
 import Result from './components/Result'
 import matchSorter from 'match-sorter'
-import { withRouter } from 'react-router-dom'
+
 import dataArray from './components/dataArray'
 import styled, { keyframes, createGlobalStyle, ThemeProvider } from 'styled-components'
-import axios from 'axios'
+import { lightTheme, darkTheme } from './styles/AppTheme'
 
 const INIT_RESULT_COUNT = 20
 const ADD_RESULT_COUNT = 50
@@ -32,6 +35,7 @@ const MainDiv = styled.div`
   position: relative;
   width: 100%;
 `;
+
 const FadeIn = keyframes`
  from{
     opacity:0;
@@ -42,6 +46,7 @@ const FadeIn = keyframes`
     transform:translateY(0);
   }
 `;
+
 const NoResultHint = styled.div`
   height:23rem;
   width:100%;
@@ -53,25 +58,6 @@ const NoResultHint = styled.div`
   transform:translateY(10px);
   animation: ${FadeIn} 0.8s 1 both ;
 `;
-
-/*  Theme Options:
-    main-white, second-white
-    input-text(need to consider opacity), result-text, no-data-text, placehoder-text
-    icon-regular, icon-active
-    input-border  
-*/
-const lightTheme = {
-  main: ['rgb(237, 236, 238)', 'rgb(207, 210, 215)'],
-  text: ['black', 'rgb(9, 7, 10)', 'rgb(49, 46, 37)', 'rgb(59, 56, 50)'],
-  icon: ['invert(0.2)', 'invert(0)'],
-  border: 'rgb(153, 153, 153)'
-};
-const darkTheme = {
-  main: ['rgb(32, 33, 36)', 'rgb(66, 67, 71)'],
-  text: ['white', 'rgb(247, 246, 248)', 'rgb(207, 210, 215)', 'rgb(197, 200, 205)'],
-  icon: ['invert(0.6)', 'invert(0.9)'],
-  border: 'rgb(153, 153, 153)'
-};
 
 class App extends Component {
   constructor() {
