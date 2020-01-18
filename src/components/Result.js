@@ -9,6 +9,7 @@ const FadeIn = keyframes`
     opacity:1;
   }
 `;
+
 const Row = styled.div`
   display:grid;
   width:calc(100% - 2rem);
@@ -22,6 +23,7 @@ const Row = styled.div`
   opacity:0;
   animation: ${FadeIn} 0.8s 1 both ;
 `;
+
 const GridCenter = styled.div`
   display:grid;
   align-items:center;
@@ -31,16 +33,19 @@ const GridCenter = styled.div`
   user-select: none;
   overflow:hidden;
 `;
+
 const Title = styled(GridCenter)`
   justify-content:start;
   grid-area:title;
 `;
+
 const Artist = styled(GridCenter)`
   font-size:1.1rem;
   grid-area:artist;
   white-space: pre-wrap;
   text-align:center;
 `;
+
 const Position = styled(GridCenter)`
   grid-area:position;  
 `;
@@ -54,18 +59,20 @@ class Result extends Component {
 
     let artistText    
     if(this.props.artist === '' || this.props.artist === 'XXX'){
-      // 以 "-" 代替沒有歌手的資料欄位
+      // Replace artist's data fields with "-"
       artistText = '-'
     } else {
-      // 取代歌手中的 "/", "+"，改為換行記號 (需要配合 white-space: pre-wrap;)
+      // Replace "/", "+" in artist's data fields with line break (by "white-space: pre-wrap;")
       artistText = this.props.artist.replace(/[/+]/ig, '\n')
     }
+
     return (
       <Row>
         <Title onDoubleClick={() => {
           const check = window.confirm(`連結至Youtube搜尋 "${this.props.title}" `);
           if (check) {
-            window.open(`https://www.youtube.com/results?search_query=${this.props.title}+${this.props.artist.replace(/[/+]/ig, '+')} `, '_blank').focus()
+            window.open('https://www.youtube.com/results?search_query='
+              + `${this.props.title}+${this.props.artist.replace(/[/+]/ig, '+')}`, '_blank').focus()
           }
         }}>{this.props.title}</Title>
         <Artist onDoubleClick={() => this.props.findArtist()}>{artistText}</Artist>

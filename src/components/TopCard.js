@@ -5,6 +5,8 @@ import Menu from "../img/half.svg"
 import Cross from "../img/cross.svg"
 import Search from "../img/search.svg"
 
+const WAITING_FOR_ADD_HISTORY_TIMEOUT = 1000
+
 const TopCard = styled.div`
   width:100%;
   height:4rem;
@@ -59,7 +61,7 @@ const Input = styled.input`
   &:focus{
     border: 2px solid ${props => props.theme.border};
     outline: none;
-    /* 選擇輸入框的 ICON */
+    /* Icon inside input box (after focus) */
     & ~ div > img{
       filter:${props => props.theme.icon[1]};
     }
@@ -76,20 +78,24 @@ class SearchInput extends Component {
     super()
     this.timeOutHistory = null
   }
+
   handleChange(e) {
     this.props.updateInputText(e.target.value)
     this.props.search(e.target.value)
   }
+
   handleBlur() {
     this.props.addHistory(this.props.inputText)
   }
+
   handleKeyUp() {
-    // 設定時間內未輸入自動更新紀錄
+    // Clean setTimeout after a second
     clearTimeout(this.timeOutHistory)
     this.timeOutHistory = setTimeout(() => {
       this.props.addHistory(this.props.inputText)
-    }, 1000)
+    }, WAITING_FOR_ADD_HISTORY_TIMEOUT)
   }
+
   render() {
     return (
       <TopCard>

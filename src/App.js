@@ -9,11 +9,16 @@ import axios from 'axios'
 
 const INIT_RESULT_COUNT = 20
 const ADD_RESULT_COUNT = 50
-const zhuyin = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/
 
 // TODO: Apply HOC
-const clearAllBlank = (str) => {
+
+const clearAllBlank = str => {
   return str.replace(/[\r\n\s]/g, '')
+}
+
+const isZhuyin = str => {
+  const zhuyin = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/
+  return zhuyin.test(str)
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -106,7 +111,7 @@ class App extends Component {
       : {}
   }
 
-  // TODO: 卷軸捲到低於 XXX 時，顯示一個可以移動到 TOP 的圖標 
+  // TODO: When scroll down to specific position, it will show a icon and auto scroll to top after clicked
   handleScroll() {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 60
       && this.state.currentCount !== this.state.result.length) {
@@ -124,17 +129,21 @@ class App extends Component {
 
   search(str) {
     const content = clearAllBlank(str)
-    // 最後輸入不為注音且字串不為空
-    if (!zhuyin.test(content.slice(-1)) && content !== '') {
+    // If the input(removed all blank) is not empty and the last character is not Zhuyin
+    if (!isZhuyin(content.slice(-1)) && content !== '') {
       const result = matchSorter(dataArray, content)
       this.setState({
         result,
         isCleaned: false,
         currentCount: INIT_RESULT_COUNT
       })
-      // 如果資料有變動，移動到最上方
+      // Scroll to top if result has been changed
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
+  }
+
+  saveToDatabase(dbUrl, content) {
+    axios.post(dbUrl, { "content": content }).catch(err => console.error(err))
   }
 
   addHistory(str) {
@@ -142,23 +151,22 @@ class App extends Component {
     const { incognito } = this.getUrlParams()
     const { history } = this.state
     const incognitoParam = incognito ? '&incognito=true' : ''
-    // 移除空白後，最後輸入不為注音，不為空字串或者尚未有重複之紀錄
-    if (!zhuyin.test(content.slice(-1)) && content !== '' && (history.length === 0 || str !== history[0])) {
+    // If the input(removed all blank) is not empty
+    // , the last character is not Zhuyin and have no duplicated history
+    if (!isZhuyin(content.slice(-1)) && content !== '' && (history.length === 0 || str !== history[0])) {
       this.setState({ history: [content, ...history] })
-      // 利用 url 存取上一次的搜尋紀錄
       this.props.history.push(encodeURI(`search?s=${content}${incognitoParam}`))
-      // 非無痕模式則將資料存入 database (ss)
-      !incognito && axios.post(`https://songsearch.kadenzwei.com/api/ss`, { "content": content })
-        .catch(err => console.log(err))
+      !incognito && this.saveToDatabase('https://songsearch.kadenzwei.com/api/ss', content)
     }
   }
 
+  // TODO: Add plyfill for smooth scrollTop
   clearInputText() {
     const { incognito } = this.getUrlParams()
     if (this.state.inputText !== '') {
-      this.setState({ inputText: '' }) // 僅更新 inputText, result 不會更新到
-      // 建立 smooth 的 polyfill
-      window.scrollTo({ top: 0, behavior: 'smooth' }) // 移動到最上方
+      // It will update inputText only but result
+      this.setState({ inputText: '' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       this.setState({ result: [], isCleaned: true })
     }
@@ -199,12 +207,12 @@ class App extends Component {
               findArtist={() => this.findArtist(data[1])} />
           )}
           {this.state.result.length === 0 &&
-            (this.state.inputText !== '' && !zhuyin.test(clearAllBlank(this.state.inputText).slice(-1))
+            (this.state.inputText !== '' && !isZhuyin(clearAllBlank(this.state.inputText).slice(-1))
               ? <NoResultHint>
                 Nothing Found.
             </NoResultHint>
               : <NoResultHint>
-                Please Enter Something to Search.
+                Please Enter Something to Search...
           </NoResultHint>)}
         </MainDiv>
       </ThemeProvider >
