@@ -147,7 +147,7 @@ class App extends Component {
   }
 
   render() {
-    const isNoResult = this.state.result.length
+    const isNoResult = this.state.result.length === 0
     return (
       <ThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
         <MainDiv className="main">
@@ -171,6 +171,7 @@ class App extends Component {
               findArtist={() => this.findArtist(data[1])} />
           )}
           { isNoResult && <NoResultHint displayMode={this.getDisplayMode()} /> }
+          { this.getDisplayMode() }
         </MainDiv>
       </ThemeProvider >
     )
