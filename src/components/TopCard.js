@@ -30,19 +30,21 @@ const IconContainer = styled.div`
 const Icon = styled.img`
   max-height: 1.6rem;
   transition:filter 0.3s;
-  filter:${props => props.theme.icon[0]};
+  filter:${props => props.theme.iconColor[0]};
   cursor: pointer; 
 `;
 const CrossImg = styled(Icon)`
   content:url(${Cross});
-  filter:${props => props.theme.icon[1]};
+  filter:${props => props.theme.iconColor[1]};
 `;
 const SearchImg = styled(Icon)`
   content:url(${Search});
 `;
 const MenuImg = styled(Icon)`
   content:url(${Menu});
-  filter:${props => props.theme.icon[0]};
+  filter:${props => props.theme.iconColor[0]};
+  transition: transform 0.3s;
+  transform:${props => props.theme.iconDir[0]};
 `;
 
 const Input = styled.input`
@@ -63,7 +65,7 @@ const Input = styled.input`
     outline: none;
     /* Icon inside input box (after focus) */
     & ~ div > img{
-      filter:${props => props.theme.icon[1]};
+      filter:${props => props.theme.iconColor[1]};
     }
   }
   &::placeholder { 
@@ -97,26 +99,26 @@ class SearchInput extends Component {
   }
 
   render() {
+    const { inputText, isCleaned, toggleTheme, clearInputText } = this.props
     return (
       <TopCard>
         <Input
           type="text"
           placeholder="Title / Artist / Volume"
-          value={this.props.inputText}
+          value={inputText}
           onChange={e => this.handleChange(e)}
           onKeyUp={() => this.handleKeyUp()}
           onBlur={() => this.handleBlur()}
           ref={(ref) => { this.input = ref }} />
         <IconContainer position='left'>
-          <MenuImg
-            onClick={() => this.props.toggleTheme()} />
+          <MenuImg onClick={() => toggleTheme()} />
         </IconContainer>
         <IconContainer position='right'>
           <CrossImg
-            className={this.props.isCleaned ? 'hide' : null}
-            onClick={() => this.props.clearInputText()} />
+            className={isCleaned ? 'hide' : null}
+            onClick={() => clearInputText()} />
           <SearchImg
-            className={this.props.isCleaned ? null : 'hide'}
+            className={isCleaned ? null : 'hide'}
             onClick={() => this.input.focus()} />
         </IconContainer>
       </TopCard>
