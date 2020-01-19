@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { FadeIn } from '../styles/utils'
 
@@ -24,6 +24,7 @@ const GridCenter = styled.div`
   width:100%;
   user-select: none;
   overflow:hidden;
+  cursor: pointer;
 `;
 
 const Title = styled(GridCenter)`
@@ -42,36 +43,37 @@ const Position = styled(GridCenter)`
   grid-area:position;  
 `;
 
-class Result extends Component {
-  render() {
-    const positionText
-      = this.props.volume === ''
-        ? this.props.page
-        : `${this.props.volume}/${this.props.page}`
+const Result = ({ volume, page, artist, title, findArtist }) => {
+  const getFieldText = () => {
+    /*
+     * Replace artist text with "-" if no artist data
+     * Replace "/", "+" with "line break" if there are multi artist in one field
+     * (by "white-space: pre-wrap;") 
+    **/
+    const artistText = (artist === '' || artist === 'XXX') ? '-' : artist.replace(/[/+]/ig, '\n')
+    const positionText = volume === '' ? page : `${volume}/${page}`
+    const titleText = title
+    return { artistText, positionText, titleText }
+  }
+  const fieldText = getFieldText()
 
-    let artistText    
-    if(this.props.artist === '' || this.props.artist === 'XXX'){
-      // Replace artist's data fields with "-"
-      artistText = '-'
-    } else {
-      // Replace "/", "+" in artist's data fields with line break (by "white-space: pre-wrap;")
-      artistText = this.props.artist.replace(/[/+]/ig, '\n')
-    }
-
-    return (
-      <Row>
-        <Title onDoubleClick={() => {
-          const check = window.confirm(`連結至Youtube搜尋 "${this.props.title}" `);
+  return (
+    <Row>
+      <Title 
+        onDoubleClick={() => {
+          const check = window.confirm(`連結至Youtube搜尋 "${title}" `);
           if (check) {
             window.open('https://www.youtube.com/results?search_query='
-              + `${this.props.title}+${this.props.artist.replace(/[/+]/ig, '+')}`, '_blank').focus()
+              + `${title}+${artist.replace(/[/+]/ig, '+')}`, '_blank').focus()
           }
-        }}>{this.props.title}</Title>
-        <Artist onDoubleClick={() => this.props.findArtist()}>{artistText}</Artist>
-        <Position>{positionText}</Position>
-      </Row>
-    )
-  }
+        }}
+      >
+        {fieldText.titleText}
+      </Title>
+      <Artist onDoubleClick={() => findArtist()}>{fieldText.artistText}</Artist>
+      <Position>{fieldText.positionText}</Position>
+    </Row>
+  )
 }
 
 export default Result
