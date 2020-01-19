@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
-import styled, { keyframes } from 'styled-components'
-
-const FadeIn = keyframes`
- from{
-    opacity:0;
-    }
-  to{
-    opacity:1;
-  }
-`;
+import styled from 'styled-components'
+import { FadeIn } from '../styles/utils'
 
 const Row = styled.div`
   display:grid;

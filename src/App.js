@@ -8,22 +8,14 @@ import NoResultHint from './components/NoResultHint'
 import matchSorter from 'match-sorter'
 
 import dataArray from './data/dataArray'
+import { clearAllBlank, isZhuyin } from './utils/base'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { lightTheme, darkTheme } from './styles/AppTheme'
 
-const INIT_RESULT_COUNT = 20
-const ADD_RESULT_COUNT = 50
-
 // TODO: Apply HOC
 
-const clearAllBlank = str => {
-  return str.replace(/[\r\n\s]/g, '')
-}
-
-const isZhuyin = str => {
-  const zhuyin = /[\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/
-  return zhuyin.test(str)
-}
+const INIT_RESULT_COUNT = 20
+const ADD_RESULT_COUNT = 50
 
 const GlobalStyle = createGlobalStyle`
   html {
