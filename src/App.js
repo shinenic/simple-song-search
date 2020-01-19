@@ -4,10 +4,11 @@ import axios from 'axios'
 
 import TopCard from './components/TopCard'
 import Result from './components/Result'
+import NoResultHint from './components/NoResultHint'
 import matchSorter from 'match-sorter'
 
-import dataArray from './components/dataArray'
-import styled, { keyframes, createGlobalStyle, ThemeProvider } from 'styled-components'
+import dataArray from './data/dataArray'
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { lightTheme, darkTheme } from './styles/AppTheme'
 
 const INIT_RESULT_COUNT = 20
@@ -34,29 +35,6 @@ const MainDiv = styled.div`
   padding: 0px;
   position: relative;
   width: 100%;
-`;
-
-const FadeIn = keyframes`
- from{
-    opacity:0;
-    transform:translateY(20px);
-    }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-`;
-
-const NoResultHint = styled.div`
-  height:23rem;
-  width:100%;
-  color:${props => props.theme.text[2]};
-  font-size: 1.25rem;
-  line-height:23rem;
-  text-align:center;
-  opacity:0;
-  transform:translateY(10px);
-  animation: ${FadeIn} 0.8s 1 both ;
 `;
 
 class App extends Component {
@@ -169,7 +147,15 @@ class App extends Component {
     this.setState({ theme: !this.state.theme })
   }
 
+  getDisplayMode() {
+    if(this.state.inputText !== '' && !isZhuyin(clearAllBlank(this.state.inputText).slice(-1)))
+      return 'NO_RESULT'
+    else
+      return 'DEFAULT'
+  }
+
   render() {
+    const isNoResult = this.state.result.length
     return (
       <ThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
         <MainDiv className="main">
@@ -192,14 +178,7 @@ class App extends Component {
               page={data[3]}
               findArtist={() => this.findArtist(data[1])} />
           )}
-          {this.state.result.length === 0 &&
-            (this.state.inputText !== '' && !isZhuyin(clearAllBlank(this.state.inputText).slice(-1))
-              ? <NoResultHint>
-                Nothing Found.
-            </NoResultHint>
-              : <NoResultHint>
-                Please Enter Something to Search...
-          </NoResultHint>)}
+          { isNoResult && <NoResultHint displayMode={this.getDisplayMode()} /> }
         </MainDiv>
       </ThemeProvider >
     )
