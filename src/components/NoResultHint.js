@@ -14,7 +14,7 @@ const MainDiv = styled.div`
   animation: ${FadeIn} 0.8s 1 both ;
 `;
 
-const NoResultHint = displayMode => {
+const NoResultHint = ({displayMode}) => {
   const getText = mode => {
     switch(mode){
       case 'NO_RESULT':

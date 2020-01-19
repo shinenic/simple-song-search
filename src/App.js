@@ -179,7 +179,6 @@ class App extends Component {
               findArtist={() => this.findArtist(data[1])} />
           )}
           { isNoResult && <NoResultHint displayMode={this.getDisplayMode()} /> }
-          { this.getDisplayMode() }
         </MainDiv>
       </ThemeProvider >
     )
