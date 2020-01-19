@@ -147,21 +147,29 @@ class App extends Component {
   }
 
   render() {
-    const isNoResult = this.state.result.length === 0
+    const {
+      theme,
+      inputText,
+      isCleaned,
+      result,
+      currentCount
+    } = this.state
+    const isNoResult = result.length === 0
+    
     return (
-      <ThemeProvider theme={this.state.theme ? darkTheme : lightTheme}>
+      <ThemeProvider theme={theme ? darkTheme : lightTheme}>
         <MainDiv className="main">
           <GlobalStyle />
           <div style={{ height: '35px' }} />
           <TopCard
-            inputText={this.state.inputText}
-            isCleaned={this.state.isCleaned}
+            inputText={inputText}
+            isCleaned={isCleaned}
             clearInputText={() => this.clearInputText()}
             toggleTheme={() => this.toggleTheme()}
             updateInputText={str => this.updateInputText(str)}
             search={str => this.search(str)}
             addHistory={str => this.addHistory(str)} />
-          {this.state.result.slice(0, this.state.currentCount).map((data, index) =>
+          {result.slice(0, currentCount).map((data, index) =>
             <Result
               key={index}
               title={data[0]}

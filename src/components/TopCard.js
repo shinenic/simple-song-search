@@ -120,7 +120,6 @@ class SearchInput extends Component {
             onClick={() => this.input.focus()} />
         </IconContainer>
       </TopCard>
-
     );
   }
 }
