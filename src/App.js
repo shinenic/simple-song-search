@@ -130,9 +130,10 @@ class App extends Component {
   }
 
   findArtist(artist) {
-    this.search(artist)
-    this.updateInputText(artist)
-    this.addHistory(artist)
+    const artistWithoutDelimiters = artist.replace(/[/+]/ig, ' ')
+    this.search(artistWithoutDelimiters)
+    this.updateInputText(artistWithoutDelimiters)
+    this.addHistory(artistWithoutDelimiters)
   }
 
   toggleTheme() {
