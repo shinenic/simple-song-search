@@ -15,7 +15,8 @@ const TopCard = styled.div`
   z-index:10;
   position: sticky;
   top:10px;
-`;
+`
+
 const IconContainer = styled.div`
   position: absolute;
   height:4rem;
@@ -26,26 +27,30 @@ const IconContainer = styled.div`
   display:flex;
   align-items:center;
   justify-content:center;
-`;
+`
+
 const Icon = styled.img`
   max-height: 1.6rem;
   transition:filter 0.3s;
   filter:${props => props.theme.iconColor[0]};
   cursor: pointer; 
-`;
+`
+
 const CrossImg = styled(Icon)`
   content:url(${Cross});
   filter:${props => props.theme.iconColor[1]};
-`;
+`
+
 const SearchImg = styled(Icon)`
   content:url(${Search});
-`;
+`
+
 const MenuImg = styled(Icon)`
   content:url(${Menu});
   filter:${props => props.theme.iconColor[0]};
   transition: transform 0.3s;
   transform:${props => props.theme.iconDir[0]};
-`;
+`
 
 const Input = styled.input`
   width: calc(100% - 2rem);
@@ -75,6 +80,7 @@ const Input = styled.input`
     opacity: 1; /* For Firefox */
   }
 `
+
 class SearchInput extends Component {
   constructor() {
     super()

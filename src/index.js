@@ -11,6 +11,6 @@ ReactDOM.render(
       <App />
     </Switch>
   </BrowserRouter>
-  , document.getElementById('root'));
+  , document.getElementById('root'))
 
-serviceWorker.register();
+serviceWorker.register()

@@ -22,12 +22,13 @@ const GlobalStyle = createGlobalStyle`
     background:${props => props.theme.main[0]};
   }
 `
+
 const MainDiv = styled.div`
   margin: 0px;
   padding: 0px;
   position: relative;
   width: 100%;
-`;
+`
 
 class App extends Component {
   constructor() {

@@ -15,7 +15,7 @@ const Row = styled.div`
   grid-template-areas:"title artist position";
   opacity:0;
   animation: ${FadeIn} 0.8s 1 both ;
-`;
+`
 
 const GridCenter = styled.div`
   display:grid;
@@ -26,23 +26,23 @@ const GridCenter = styled.div`
   user-select: none;
   overflow:hidden;
   cursor: pointer;
-`;
+`
 
 const Title = styled(GridCenter)`
   justify-content:start;
   grid-area:title;
-`;
+`
 
 const Artist = styled(GridCenter)`
   font-size:1.1rem;
   grid-area:artist;
   white-space: pre-wrap;
   text-align:center;
-`;
+`
 
 const Position = styled(GridCenter)`
   grid-area:position;  
-`;
+`
 
 const Result = ({ title, artist, volume, page, findArtist }) => {
 
