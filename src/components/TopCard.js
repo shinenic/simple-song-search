@@ -7,6 +7,11 @@ import Search from "../img/search.svg"
 
 const WAITING_FOR_ADD_HISTORY_TIMEOUT = 1000
 
+const getIconPositionStyles = ({ position }) => ({
+  left: position === 'left' ? '1rem' : 'unset',
+  right: position === 'right' ? '1rem' : 'unset'
+})
+
 const TopCard = styled.div`
   width:100%;
   height:4rem;
@@ -21,8 +26,7 @@ const IconContainer = styled.div`
   position: absolute;
   height:4rem;
   width:4rem;
-  left:${props => props.position === 'left' ? '1rem' : 'unset'};
-  right:${props => props.position === 'right' ? '1rem' : 'unset'};
+  ${getIconPositionStyles};
   top:0;
   display:flex;
   align-items:center;
