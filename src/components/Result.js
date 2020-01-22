@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import DoubleTap from './common/doubleTap'
 import { FadeIn } from '../styles/utils'
-
-const SINGLE_TAP_TIME_OUT = 450
 
 const Row = styled.div`
   display:grid;
@@ -45,43 +44,21 @@ const Position = styled(GridCenter)`
   grid-area:position;  
 `;
 
-class Result extends Component {
-  constructor() {
-    super()
-    this.timeout = null
-    this.lastTapTime = 0
-  }
+const Result = ({ title, artist, volume, page, findArtist }) => {
 
-  // ref: http://jsfiddle.net/brettwp/J4djY/
-  handleDoubleTapEvent(event, doubleTapEvent) {
-    const currentTime = new Date().getTime()
-    const tapLengthOfTime = currentTime - this.lastTapTime
-    clearTimeout(this.timeout)
-
-    if (tapLengthOfTime > 0 && tapLengthOfTime < SINGLE_TAP_TIME_OUT) {
-      doubleTapEvent()
-      event.preventDefault()
-    } else {
-      this.timeout = setTimeout(() => { clearTimeout(this.timeout) }, SINGLE_TAP_TIME_OUT)
-    }
-    this.lastTapTime = currentTime
-  }
-
-  getFieldText() {
+  const getFieldText = () => {
     /*
-     * Replace artist text with "-" if no artist data
-     * Replace "/", "+" with "line break" if there are multi artist in one field
-     * (by "white-space: pre-wrap;") 
+     * If no artist data                       =>  Replace artist text with "-"
+     * If there are multi artist in one field  =>  Replace "/", "+" with "line break"
+     *                                             (based on "white-space: pre-wrap;") 
     **/
-    const { title, artist, volume, page } = this.props
     const artistText = (artist === '' || artist === 'XXX') ? '-' : artist.replace(/[/+]/ig, '\n')
     const positionText = volume === '' ? page : `${volume}/${page}`
     const titleText = title
-    return { artistText, positionText, titleText }
+    return { artist: artistText, position: positionText, title: titleText }
   }
 
-  connectToYoutube() {
-    const { title, artist } = this.props
+  const connectToYoutube = () => {
     const check = window.confirm(`連結至Youtube搜尋 "${title}" `);
     if (check) {
       window.open('https://www.youtube.com/results?search_query='
@@ -89,23 +66,21 @@ class Result extends Component {
     }
   }
 
-  render() {
-    const fieldText = this.getFieldText()
-    const { findArtist } = this.props
-    return (
-      <Row>
-        <Title onTouchEnd={e =>
-          this.handleDoubleTapEvent(e, () => this.connectToYoutube())}>
-          {fieldText.titleText}
-        </Title>
-        <Artist onTouchEnd={e =>
-          this.handleDoubleTapEvent(e, () => findArtist())}>
-          {fieldText.artistText}
-        </Artist>
-        <Position>{fieldText.positionText}</Position>
-      </Row>
-    )
-  }
+  const fieldText = getFieldText()
+
+  return (
+    <Row>
+      <DoubleTap
+        styledDiv={Title}
+        content={fieldText.title}
+        doubleTapEvent={() => connectToYoutube()} />
+      <DoubleTap
+        styledDiv={Artist}
+        content={fieldText.artist}
+        doubleTapEvent={() => findArtist()} />
+      <Position>{fieldText.position}</Position>
+    </Row>
+  )
 }
 
 export default Result
