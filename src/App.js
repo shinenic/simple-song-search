@@ -70,12 +70,13 @@ class App extends Component {
 
   // TODO: When scroll down to specific position, it will show a icon and auto scroll to top after clicked
   handleScroll() {
+    const { currentCount, result } = this.state
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 60
-      && this.state.currentCount !== this.state.result.length) {
+      && currentCount !== result.length) {
       this.setState({
-        currentCount: this.state.currentCount + ADD_RESULT_COUNT > this.state.result.length
-          ? this.state.result.length + 1
-          : this.state.currentCount + ADD_RESULT_COUNT
+        currentCount: currentCount + ADD_RESULT_COUNT > result.length
+          ? result.length + 1
+          : currentCount + ADD_RESULT_COUNT
       })
     }
   }
@@ -117,7 +118,7 @@ class App extends Component {
     }
   }
 
-  // TODO: Add plyfill for smooth scrollTop
+  // TODO: Add polyfill for smooth scrollTop
   clearInputText() {
     const { incognito } = this.getUrlParams()
     if (this.state.inputText !== '') {
