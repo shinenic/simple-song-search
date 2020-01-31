@@ -1,0 +1,78 @@
+.search-card {
+  width: 100%;
+  height: 4rem;
+  background: map-get($black, main);
+  opacity: 0.8;
+  z-index: 10;
+  position: sticky;
+  top: 10px;
+
+  &__input {
+    width: calc(100% - 2rem);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 4rem;
+    border-radius: 5px;
+    border: 2px solid transparent;
+    letter-spacing: 0.1ex;
+    font-size: 1.4rem;
+    background: map-get($black, second);
+    display: block;
+    color: map-get($text-color, input);
+    transition: border 0.3s;
+    &:focus {
+      border: 2px solid $input-border-color;
+      outline: none;
+      /* Icon inside input box (after focus) */
+      & ~ div > img {
+        filter: map-get($icon-color, active);
+      }
+    }
+    &::placeholder {
+      font-size: 1.25rem;
+      letter-spacing: 0.15ex;
+      color: map-get($text-color, placeHolder);
+      opacity: 1; /* For Firefox */
+    }
+  }
+}
+
+.icon-container {
+  position: absolute;
+  height: 4rem;
+  width: 4rem;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--left {
+    left: 1rem;
+  }
+
+  &--right {
+    right: 1rem;
+  }
+}
+
+%icon {
+  max-height: 1.6rem;
+  transition: filter 0.3s;
+  filter: map-get($icon-color, default);
+  cursor: pointer;
+}
+
+.cross-img {
+  @extend %icon;
+  filter: map-get($icon-color, active);
+}
+
+.search-img {
+  @extend %icon;
+}
+
+.menu-img {
+  @extend %icon;
+  transition: transform 0.3s;
+  transform: rotate(180deg);
+}

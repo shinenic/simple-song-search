@@ -6,7 +6,8 @@ $black: (
 $text-color: (
   input: rgb(255, 255, 255),
   result: rgb(247, 246, 248),
-  others: rgb(197, 200, 205)
+  noData: rgb(207, 210, 215),
+  placeHolder: rgb(197, 200, 205)
 );
 
 $icon-color: (
@@ -15,10 +16,3 @@ $icon-color: (
 );
 
 $input-border-color: rgb(153, 153, 153);
-
-// $text-color-1: rgb(255, 255, 255);
-// $text-color-2: rgb(247, 246, 248);
-// $text-color-3: rgb(197, 200, 205);
-
-// $icon-color-1: 
-// $icon-color-1: 

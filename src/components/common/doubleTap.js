@@ -26,14 +26,15 @@ class DoubleTap extends Component {
   }
 
   render() {
-    const { content, styledDiv: StyledDiv, doubleTapEvent } = this.props
+    const { content, className, doubleTapEvent } = this.props
     return (
       /* Align broswer behavior on both PC and mobile */
-      <StyledDiv
+      <div
+        className={className}
         onTouchEnd={e => this.handleDoubleTapEvent(e)}
         onDoubleClick={doubleTapEvent}>
         { content }
-      </StyledDiv>
+      </div>
     )
   }
 }

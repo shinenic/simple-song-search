@@ -1,0 +1,45 @@
+.row {
+  display: grid;
+  width: calc(100% - 2rem);
+  color: map-get($text-color, result);
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1.6rem;
+  margin: 2rem 1rem 3rem 1rem;
+  grid-template-columns: 0.6fr 0.4fr 5rem;
+  grid-template-areas: "title artist position";
+  opacity: 0;
+  @extend %fadeIn;
+}
+
+%gridCenter {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 100%;
+  user-select: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.column {
+  &-title {
+    justify-content: start;
+    grid-area: title;
+    @extend %gridCenter;
+  }
+
+  &-artist {
+    font-size: 1.1rem;
+    grid-area: artist;
+    white-space: pre-wrap;
+    text-align: center;
+    @extend %gridCenter;
+  }
+
+  &-position {
+    grid-area: position;  
+    @extend %gridCenter;
+  }
+}

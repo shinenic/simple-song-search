@@ -1,0 +1,11 @@
+.no-result-hint {
+  height: 23rem;
+  width: 100%;
+  color: map-get($text-color, noData);
+  font-size: 1.25rem;
+  line-height: 23rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  @extend %fadeIn;
+}

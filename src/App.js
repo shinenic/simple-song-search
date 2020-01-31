@@ -136,6 +136,8 @@ class App extends Component {
     } = this.state
     const isNoResult = result.length === 0
 
+    console.log(result)
+
     return (
       <div className="main">
         <div style={{ height: '35px' }} />

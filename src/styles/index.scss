@@ -1,4 +1,5 @@
-@import "./*";
+@import "./common/variables";
+@import "./common/keyframes";
 
 html,
 body,
@@ -42,3 +43,8 @@ input {
 ::-webkit-scrollbar {
   width: 0px;
 }
+
+@import "./component/app";
+@import "./component/noResultHint";
+@import "./component/result";
+@import "./component/topCard";
