@@ -1,3 +1,5 @@
+@import "./*";
+
 html,
 body,
 #root {
@@ -11,6 +13,7 @@ body,
   box-sizing: border-box;
   width: 100%;
   -webkit-tap-highlight-color: transparent;
+  background-color: map-get($black, main);
 }
 
 html {
